@@ -1,0 +1,29 @@
+Designator,Qty,MPN,Manufacturer,Package,Description,Order_Link
+U1,1,STM32U595RJT6Q,STMicroelectronics,LQFP64,MCU 4MB USB-HS SMPS (drop-in for U5A5/U585/U575 Q),https://www.mouser.com/en/ProductDetail/STMicroelectronics/STM32U595RJT6Q?qs=amGC7iS6iy%2Fnod5kGWzwSQ%3D%3D
+MK1,1,MMICT5837-00-012,TDK InvenSense,LGA-6 Bottom Port,PDM MEMS Mic T5837 (fits T5838),https://www.digikey.com/en/products/detail/tdk-invensense/MMICT5837-00-012/16903859
+U2,1,RV-3032-C7-32.768KHZ-2.5PPM-TA-QC,Micro Crystal,SON-8,RTC +/-2.5ppm 32.768kHz CLKOUT,https://www.digikey.com/en/products/detail/micro-crystal-ag/RV-3032-C7-32-768KHZ-2-5PPM-TA-QC/16273061
+U3,1,BQ25185DLHR,Texas Instruments,WSON-10,Linear Power-Path Charger 250mA,https://www.digikey.com/en/products/detail/texas-instruments/BQ25185DLHR/21769368
+U4,1,TPS62840DLCR,Texas Instruments,VSON-HR-8,1.8V Always-On Buck 60nA Iq,https://www.digikey.com/en/products/detail/texas-instruments/TPS62840DLCR/10445071
+U5,1,TLV75530PDBVR,Texas Instruments,SOT-23-5,Switched 3.0V 500mA SD LDO,https://www.digikey.com/en/products/detail/texas-instruments/TLV75530PDBVR/9356540
+U6,1,AP2112K-3.3TRG1,Diodes Inc.,SOT-23-5,USB-Only 3.3V LDO for VDDUSB,https://www.digikey.com/en/products/detail/diodes-incorporated/AP2112K-3-3TRG1/4470746
+U7,1,TXS02612RTWR,Texas Instruments,WQFN-24,4-Bit SDMMC Level Translator (Ioff),https://www.digikey.com/en/products/detail/texas-instruments/TXS02612RTWR/1965237
+D1,1,USBLC6-2SC6Y,STMicroelectronics,SOT-23-6,USB 2.0 HS ESD Protection,https://www.digikey.com/en/products/detail/stmicroelectronics/USBLC6-2SC6Y/2819177
+D2,1,XZMDKCBDDG45S-9,SunLED,4-PLCC Bottom,Reverse-Mount RGB LED,https://www.digikey.com/en/products/detail/sunled/XZMDKCBDDG45S-9/4902045
+J1,1,DM3D-SF,Hirose,SMT 1.55mm H,Push-Pull microSD Socket,https://www.digikey.com/en/products/detail/hirose-electric-co-ltd/DM3D-SF/1786510
+Y1,1,CX3225SB16000D0FLJCC,Kyocera AVX,SMD 3225,16MHz +/-10ppm 8pF HSE Crystal,https://www.digikey.com/en/products/detail/kyocera-avx/CX3225SB16000D0FLJCC/6123301
+"L1,L2",2,DFE201610E-2R2M=P2,Murata,2016 1.0mm H,2.2uH Shielded Inductor,https://www.digikey.com/en/products/detail/murata-electronics/DFE201610E-2R2M-P2/7430537
+"R1,R2",2,RC0603FR-071KL,Yageo,0603,1k 1% (LED G/B),https://www.digikey.com/en/products/detail/yageo/RC0603FR-071KL/726843
+R3,1,RC0603FR-072K2L,Yageo,0603,2.2k 1% (LED R),https://www.digikey.com/en/products/detail/yageo/RC0603FR-072K2L/727016
+R4,1,RC0603FR-071K2L,Yageo,0603,1.2k 1% (BQ25185 ISET 250mA),https://www.digikey.com/en/products/detail/yageo/RC0603FR-071K2L/726852
+R5,1,RC0603FR-0718KL,Yageo,0603,18k 1% (BQ25185 ILIM/VSET),https://www.digikey.com/en/products/detail/yageo/RC0603FR-0718KL/726989
+R6-R11,6,RC0603FR-0710KL,Yageo,0603,"10k 1% (TS, BOOT0, I2C, RTC)",https://www.digikey.com/en/products/detail/yageo/RC0603FR-0710KL/726880
+R12,1,RC0603FR-0747KL,Yageo,0603,47k 1% (VBUS_DET bot),https://www.digikey.com/en/products/detail/yageo/RC0603FR-0747KL/727253
+R13-R15,3,RC0603FR-07100KL,Yageo,0603,"100k 1% (VBUS top, VBAT bot, SD_EN PD)",https://www.digikey.com/en/products/detail/yageo/RC0603FR-07100KL/726889
+R16,1,RC0603FR-07220KL,Yageo,0603,220k 1% (VBAT sense top),https://www.digikey.com/en/products/detail/yageo/RC0603FR-07220KL/727062
+C1-C3,3,CL10A106KP8NNNC,Samsung,0603,10uF 10V X5R,https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A106KP8NNNC/3886850
+"C4,C5",2,CL10A475KP8NNNC,Samsung,0603,4.7uF 10V X5R,https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A475KP8NNNC/3886702
+"C6,C7",2,CL10A225KP8NNNC,Samsung,0603,2.2uF 10V X5R (VDD11),https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A225KP8NNNC/3886743
+C8-C12,5,CL10A105KB8NNNC,Samsung,0603,1uF 50V X5R,https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10A105KB8NNNC/3887518
+C13-C26,14,CL10B104KB8NNNC,Samsung,0603,100nF 50V X7R,https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10B104KB8NNNC/3886658
+C27,1,CL10B103KB8NNNC,Samsung,0603,10nF 50V X7R (VBAT ADC),https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10B103KB8NNNC/3886667
+"C28,C29",2,CL10C120JB8NNNC,Samsung,0603,12pF 50V C0G (16MHz HSE),https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10C120JB8NNNC/3886912

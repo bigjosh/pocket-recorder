@@ -1,0 +1,20 @@
+# KiCad backups and lock files
+*-backups/
+*.lck
+*.bak
+*_autosave-*
+fp-info-cache
+
+# Verification / routing temporary artifacts
+verify_out/
+kicad/
+*.dsn
+*.ses
+*.rules
+*.rpt
+pocket_recorder_hw/gerbers_pcbway/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
