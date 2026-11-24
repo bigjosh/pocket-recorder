@@ -34,7 +34,7 @@ NETS = [
     "VBAT_ADC", "VBAT_EN", "CHG_STAT1", "CHG_STAT2",
     "BQ_ILIM", "BQ_ISET", "BQ_TS",
     "BUCK_SW", "SMPS_LX", "VDD11",
-    "SD_PWR_EN", "SD_CD",
+    "SD_PWR_EN",
     "SD_D0_1V8", "SD_D1_1V8", "SD_D2_1V8", "SD_D3_1V8", "SD_CLK_1V8", "SD_CMD_1V8",
     "SD_D0_3V", "SD_D1_3V", "SD_D2_3V", "SD_D3_3V", "SD_CLK_3V", "SD_CMD_3V",
     "I2C_SCL", "I2C_SDA", "RTC_32K", "RTC_INT", "RTC_VBACK",
@@ -263,7 +263,7 @@ MPN_MAP = {
     "U7": "TXS02612RTWR",
     "D1": "USBLC6-2SC6Y",
     "D2": "XZMDKCBDDG45S-9",
-    "J1": "DM3D-SF",
+    "J1": "47219-2001",
     "Y1": "CX3225SB16000D0FLJCC",
     "L1": "DFE201610E-2R2M=P2",
     "L2": "DFE201610E-2R2M=P2",
@@ -344,7 +344,7 @@ def model_block_for_ref(ref):
         "U7":  ("Package_DFN_QFN.3dshapes/QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.step", (0, 0, 0), (1, 1, 1), (0, 0, 0)),
         "D1":  ("Package_TO_SOT_SMD.3dshapes/SOT-23-6.step", (0, 0, 0), (1, 1, 1), (0, 0, 90)),
         "D2":  ("LED_SMD.3dshapes/LED_RGB_Wuerth-PLCC4_3.2x2.8mm_150141M173100.step", (0, 0, 0), (1, 1, 1), (0, 0, 0)),
-        "J1":  ("Connector_Card.3dshapes/microSD_HC_Hirose_DM3D-SF.step", (0, 0, 0), (1, 1, 1), (0, 0, 0)),
+        "J1":  ("${KIPRJMOD}/3dmodels/microSD_HC_Molex_47219-2001.wrl", (0, 0, 0), (1, 1, 1), (0, 0, 0)),
         "MK1": ("Sensor_Audio.3dshapes/InvenSense_ICS-43434-6_3.5x2.65mm.step", (0.71, 0, 0), (1, 1, 1), (0, 0, 90)),
         "Y1":  ("Crystal.3dshapes/Crystal_SMD_3225-4Pin_3.2x2.5mm.step", (0, 0, 0), (1, 1, 1), (0, 0, 0)),
         "L1":  ("Inductor_SMD.3dshapes/L_Murata_DFE201610P.step", (0, 0, 0), (1, 1, 1), (0, 0, 0)),
@@ -358,8 +358,9 @@ def model_block_for_ref(ref):
         rel, off, scl, rot = ("Capacitor_SMD.3dshapes/C_0603_1608Metric.step", (0, 0, 0), (1, 1, 1), (0, 0, 0))
     else:
         return ""
+    model_path = rel if rel.startswith("${") else f"${{KICAD10_3DMODEL_DIR}}/{rel}"
     return (
-        f'    (model "${{KICAD10_3DMODEL_DIR}}/{rel}"\n'
+        f'    (model "{model_path}"\n'
         f'      (offset (xyz {off[0]} {off[1]} {off[2]}))\n'
         f'      (scale (xyz {scl[0]} {scl[1]} {scl[2]}))\n'
         f'      (rotate (xyz {rot[0]} {rot[1]} {rot[2]}))\n'
@@ -581,36 +582,32 @@ def fp_rgb_led(ref, val, x, y, rot, pnets):
     return fp_wrapper("LED_SMD:SunLED_XZMDKCBDDG45S-9_ReverseMount", ref, val, x, y, rot, "B.Cu", "\n".join(pads), hide_ref=True)
 
 
-def fp_dm3d_sf(ref, val, x, y, rot, pnets):
+def fp_molex_47219_2001(ref, val, x, y, rot, pnets):
     """
-    Hirose DM3D-SF push-pull microSD socket (1.55 mm height, 11.95 x 11.45 mm body),
-    exact KiCad/Hirose pad coordinates mirrored for B.Cu:
-      - Pins 1..8 at y = -5.35 (card-entry side on B.Cu), pitch 1.10 mm, x = +3.175..-4.525
-      - Seated 15.0 mm microSD card extends from y = +5.725 (back) to y = -10.075 (front)
+    Molex 47219-2001 hinged clamshell microSD socket (1.90 mm height, 13.60 x 14.50 mm body),
+    exact KiCad official microSD_HC_Molex_47219-2001.kicad_mod pad coordinates mirrored for B.Cu:
+      - Pins 1..8 at y = +2.10 (B.Cu), pitch 1.10 mm, x = -3.205 .. +4.495, size 0.80 x 1.50 mm
+      - 4 shield/hinge anchor tabs at x = +/-6.875, y = +4.70 / -3.60, size 1.45 x 2.00 mm
+      - Flip-open lid opens upward 90 deg -> ZERO linear slide-out clearance required!
     """
     pads = []
     for i in range(8):
-        px = 3.175 - i * 1.10
-        pads.append(smd_pad(str(i + 1), px, -5.35, 0.70, 1.75, pnets.get(i + 1, ""), "B", rot=rot))
-    # Card detect switch pads (SW1=pin 9, SW2=pin 10)
-    pads.append(smd_pad("SW1", -5.65,  3.875, 1.45, 1.00, pnets.get("SW1", "SD_CD"), "B", rot=rot))
-    pads.append(smd_pad("SW2",  5.575, 5.450, 1.00, 1.55, pnets.get("SW2", "GND"),   "B", rot=rot))
-    # 4 Shield ground anchor pads
+        px = -3.205 + i * 1.10
+        pads.append(smd_pad(str(i + 1), px, 2.10, 0.80, 1.50, pnets.get(i + 1, ""), "B", rot=rot))
     sh_coords = [
-        ("SH1", -5.975,  2.375, 0.80, 1.50),
-        ("SH2", -5.775, -5.225, 1.20, 1.50),
-        ("SH3",  5.625, -5.225, 1.50, 1.50),
-        ("SH4",  5.975,  3.025, 0.80, 1.40),
+        ("SH1", -6.875,  4.70, 1.45, 2.00),
+        ("SH2", -6.875, -3.60, 1.45, 2.00),
+        ("SH3",  6.875,  4.70, 1.45, 2.00),
+        ("SH4",  6.875, -3.60, 1.45, 2.00),
     ]
     for sh_name, sx, sy, sw, sh in sh_coords:
         pads.append(smd_pad(sh_name, sx, sy, sw, sh, "GND", "B", rot=rot))
     extras = "\n".join([
-        f'    (fp_rect (start -6.375 -5.725) (end 6.375 5.725) (stroke (width 0.10) (type solid)) (layer "B.CrtYd") (uuid "{uid()}"))',
-        # Seated 15.0 mm microSD card outline on B.Fab (must stay inside [1.0,29.0]x[1.0,47.0])
-        f'    (fp_rect (start -5.525 -10.075) (end 5.475 5.725) (stroke (width 0.10) (type dash)) (layer "B.Fab") (uuid "{uid()}"))',
+        f'    (fp_rect (start -7.85 -7.50) (end 7.85 7.50) (stroke (width 0.10) (type solid)) (layer "B.CrtYd") (uuid "{uid()}"))',
+        f'    (fp_rect (start -6.80 -7.25) (end 6.80 7.25) (stroke (width 0.10) (type solid)) (layer "B.Fab") (uuid "{uid()}"))',
     ])
     return fp_wrapper(
-        "Connector_Card:Hirose_DM3D-SF_microSD", ref, val, x, y, rot, "B.Cu",
+        "Connector_Card:microSD_HC_Molex_47219-2001", ref, val, x, y, rot, "B.Cu",
         "\n".join(pads), extras, ref_xy=(0.0, 0.0), hide_ref=False,
     )
 
@@ -657,14 +654,14 @@ def fp_magnet_hole(ref, x, y, pol_label):
 
 
 def fp_bat_pads(x, y):
-    """Hard-wired LiPo cell solder pads (P6: no reverse-polarity protection)."""
+    """Hard-wired LiPo cell solder pads along the bottom edge (P6: no reverse-polarity protection)."""
     pads = "\n".join([
-        smd_pad("1", 0, -1.75, 2.20, 2.80, "VBAT", "B", rot=0, paste=False),
-        smd_pad("2", 0,  1.75, 2.20, 2.80, "GND",  "B", rot=0, paste=False),
+        smd_pad("1",  1.80, 0.0, 2.60, 2.20, "VBAT", "B", rot=0, paste=False),
+        smd_pad("2", -1.80, 0.0, 2.60, 2.20, "GND",  "B", rot=0, paste=False),
     ])
     pol = "\n".join([
-        f'    (fp_text user "+" (at -1.6 -1.75 0) (layer "B.SilkS") (effects (font (size 0.9 0.9) (thickness 0.16)) (justify mirror)) (uuid "{uid()}"))',
-        f'    (fp_text user "-" (at -1.6  1.75 0) (layer "B.SilkS") (effects (font (size 0.9 0.9) (thickness 0.16)) (justify mirror)) (uuid "{uid()}"))',
+        f'    (fp_text user "+" (at  1.80 -1.95 0) (layer "B.SilkS") (effects (font (size 0.9 0.9) (thickness 0.16)) (justify mirror)) (uuid "{uid()}"))',
+        f'    (fp_text user "-" (at -1.80 -1.95 0) (layer "B.SilkS") (effects (font (size 0.9 0.9) (thickness 0.16)) (justify mirror)) (uuid "{uid()}"))',
     ])
     return fp_wrapper("Custom:LiPo_SolderPads_2P", "J_BAT", "LIPO_500MAH", x, y, 0, "B.Cu", pads, pol, hide_ref=True)
 
@@ -682,7 +679,7 @@ STM32_PINS = {
     44: "USB_DM_MCU", 45: "USB_DP_MCU", 46: "SWDIO", 47: "GND", 48: "+3V3_USB",
     49: "SWCLK", 51: "SD_D2_1V8", 52: "SD_D3_1V8", 53: "SD_CLK_1V8", 54: "SD_CMD_1V8",
     55: "PDM_CLK", 56: "PDM_DATA", 57: "SD_PWR_EN", 58: "I2C_SCL", 59: "I2C_SDA",
-    60: "BOOT0", 61: "SD_CD", 62: "VDD11", 63: "GND", 64: "+1V8",
+    60: "BOOT0", 62: "VDD11", 63: "GND", 64: "+1V8",
 }
 
 
@@ -778,12 +775,12 @@ def build_pcb(extra_routing=""):
     fps.append(fp_sot23_5("U5", "TLV75530PDBVR", 4.2, 35.6, 0, {
         1: "VSYS", 2: "GND", 3: "SD_PWR_EN", 5: "+3V0_SD"
     }))
-    # J1 at (22.3, 31.5) rot=0: seated 15.0 mm card occupies [16.775..27.775, 21.425..37.225]
-    # Completely inside [1.0..29.0, 1.0..47.0] and 100% clear of all other parts!
-    fps.append(fp_dm3d_sf("J1", "DM3D-SF", 22.3, 31.5, 0, {
+    # J1 at (21.2, 30.60) rot=0: Molex 47219-2001 hinged clamshell microSD socket
+    # Body [14.40..28.00, 23.35..37.85], outer shield pads [13.60..28.80] — strictly inside [1..29, 1..47]!
+    # Lid flips open upward 90 deg -> zero slide-out clearance required!
+    fps.append(fp_molex_47219_2001("J1", "47219-2001", 21.2, 30.60, 0, {
         1: "SD_D2_3V", 2: "SD_D3_3V", 3: "SD_CMD_3V", 4: "+3V0_SD",
         5: "SD_CLK_3V", 6: "GND", 7: "SD_D0_3V", 8: "SD_D1_3V",
-        "SW1": "SD_CD", "SW2": "GND"
     }))
     fps.append(fp_t5837("MK1", "MMICT5837-00-012", 11.25, 42.5, 0, {
         1: "+1V8", 2: "PDM_DATA", 3: "PDM_CLK", 4: "GND", 5: "GND", 6: "GND"
@@ -791,7 +788,7 @@ def build_pcb(extra_routing=""):
     fps.append(fp_rgb_led("D2", "XZMDKCBDDG45S-9", 18.75, 42.5, 0, {
         1: "LED_R_K", 2: "VSYS", 3: "LED_G_K", 4: "LED_B_K"
     }))
-    fps.append(fp_bat_pads(27.5, 17.4))
+    fps.append(fp_bat_pads(24.6, 45.4))
 
     # --- 0603 Passives (Resistors & Capacitors, collision-free, clear of dogbone vias, magnets & SD card) ---
     passives = [
@@ -839,7 +836,7 @@ def build_pcb(extra_routing=""):
         ("C21", "100nF",  3.8, 20.8, 0,  "+1V8",     "GND"),
         ("C22", "100nF",  6.2, 25.4, 0,  "+1V8",     "GND"),
         ("C23", "100nF", 11.0, 32.8, 180, "+3V0_SD", "GND"),
-        ("C24", "100nF", 13.8, 35.4, 0,  "+3V0_SD",  "GND"),
+        ("C24", "100nF",  4.2, 38.6, 0,  "+3V0_SD",  "GND"),
         ("C25", "100nF",  6.2, 42.5, 90, "+1V8",     "GND"),
         ("C26", "100nF", 15.4, 42.5, 90, "VSYS",     "GND"),
         ("C27", "10nF",  22.6, 19.6, 0,  "VBAT_ADC", "VBAT_EN"),
@@ -948,7 +945,7 @@ BOM_ROWS = [
     ("U7", 1, "TXS02612RTWR", "Texas Instruments", "WQFN-24", "4-Bit SDMMC Level Translator (Ioff)", "https://www.digikey.com/en/products/detail/texas-instruments/TXS02612RTWR/1965237"),
     ("D1", 1, "USBLC6-2SC6Y", "STMicroelectronics", "SOT-23-6", "USB 2.0 HS ESD Protection", "https://www.digikey.com/en/products/detail/stmicroelectronics/USBLC6-2SC6Y/2819177"),
     ("D2", 1, "XZMDKCBDDG45S-9", "SunLED", "4-PLCC Bottom", "Reverse-Mount RGB LED", "https://www.digikey.com/en/products/detail/sunled/XZMDKCBDDG45S-9/4902045"),
-    ("J1", 1, "DM3D-SF", "Hirose", "SMT 1.55mm H", "Push-Pull microSD Socket", "https://www.digikey.com/en/products/detail/hirose-electric-co-ltd/DM3D-SF/1786510"),
+    ("J1", 1, "47219-2001", "Molex", "SMT 1.90mm H", "Hinged Clamshell microSD Socket", "https://www.digikey.com/en/products/detail/molex/0472192001/1997321"),
     ("Y1", 1, "CX3225SB16000D0FLJCC", "Kyocera AVX", "SMD 3225", "16MHz +/-10ppm 8pF HSE Crystal", "https://www.digikey.com/en/products/detail/kyocera-avx/CX3225SB16000D0FLJCC/6123301"),
     ("L1,L2", 2, "DFE201610E-2R2M=P2", "Murata", "2016 1.0mm H", "2.2uH Shielded Inductor", "https://www.digikey.com/en/products/detail/murata-electronics/DFE201610E-2R2M-P2/7430537"),
     ("R1,R2", 2, "RC0603FR-071KL", "Yageo", "0603", "1k 1% (LED G/B)", "https://www.digikey.com/en/products/detail/yageo/RC0603FR-071KL/726843"),
@@ -995,9 +992,82 @@ rm -f pocket_recorder_pcbway_gerbers.zip
 echo "Done -> pocket_recorder_hw/pocket_recorder_pcbway_gerbers.zip"
 """
 
+def write_molex_47219_2001_wrl(out_path):
+    """
+    Generate a dimensionally exact VRML 2.0 3D model (KiCad units: 1 unit = 2.54 mm)
+    for the Molex 47219-2001 hinged clamshell microSD socket (13.60 x 14.50 x 1.90 mm).
+    """
+    S = 1.0 / 2.54
+
+    def box(cx, cy, cz, sx, sy, sz, mat):
+        return (
+            f"Transform {{ translation {cx*S:.5f} {cy*S:.5f} {cz*S:.5f} children [ "
+            f"Shape {{ appearance Appearance {{ material {mat} }} "
+            f"geometry Box {{ size {sx*S:.5f} {sy*S:.5f} {sz*S:.5f} }} }} ] }}\n"
+        )
+
+    def cyl_x(cx, cy, cz, r, length, mat):
+        # Cylinder along X-axis (VRML Cylinder defaults to Y-axis -> rotate Z by 90 deg)
+        return (
+            f"Transform {{ translation {cx*S:.5f} {cy*S:.5f} {cz*S:.5f} rotation 0 0 1 1.5707963 children [ "
+            f"Shape {{ appearance Appearance {{ material {mat} }} "
+            f"geometry Cylinder {{ radius {r*S:.5f} height {length*S:.5f} }} }} ] }}\n"
+        )
+
+    mat_plastic = "DEF Plastic Material { diffuseColor 0.14 0.14 0.15 specularColor 0.25 0.25 0.25 shininess 0.35 }"
+    mat_steel   = "DEF Steel Material { diffuseColor 0.72 0.74 0.76 specularColor 0.90 0.92 0.94 shininess 0.75 }"
+    mat_steel_d = "DEF SteelDark Material { diffuseColor 0.50 0.52 0.55 specularColor 0.70 0.72 0.75 shininess 0.60 }"
+    mat_gold    = "DEF Gold Material { diffuseColor 0.85 0.68 0.22 specularColor 0.95 0.85 0.45 shininess 0.85 }"
+
+    parts = ["#VRML V2.0 utf8\n# Molex 47219-2001 Hinged Clamshell microSD Socket (13.60 x 14.50 x 1.90 mm)\n"]
+    # 1. Molded black LCP plastic base frame (13.60 x 14.50 mm, z = 0.05..0.95 mm)
+    parts.append(box(0.0,  0.0,  0.30, 13.40, 14.40, 0.50, mat_plastic))
+    parts.append(box(-6.05, 0.0, 0.75,  1.30, 14.40, 0.55, "USE Plastic"))
+    parts.append(box( 6.05, 0.0, 0.75,  1.30, 14.40, 0.55, "USE Plastic"))
+    parts.append(box( 0.0,  6.55, 0.75, 13.40,  1.30, 0.55, "USE Plastic"))
+    parts.append(box( 0.0, -6.55, 0.75, 13.40,  1.30, 0.55, "USE Plastic"))
+
+    # 2. 8 gold-plated SMD contact tails + spring beams (y_2d=-2.10 -> y_3d=+2.10)
+    for i in range(8):
+        px = -3.205 + i * 1.10
+        m = mat_gold if i == 0 else "USE Gold"
+        parts.append(box(px, 2.10, 0.12, 0.55, 1.35, 0.22, m))
+        parts.append(box(px, 3.60, 0.58, 0.42, 2.60, 0.16, "USE Gold"))
+
+    # 3. 4 stainless-steel / tinned SMD anchor tabs (x=+/-6.875, y_3d=+4.70 & -3.60)
+    parts.append(box(-6.875,  4.70, 0.14, 1.25, 1.80, 0.28, mat_steel))
+    parts.append(box(-6.875, -3.60, 0.14, 1.25, 1.80, 0.28, "USE Steel"))
+    parts.append(box( 6.875,  4.70, 0.14, 1.25, 1.80, 0.28, "USE Steel"))
+    parts.append(box( 6.875, -3.60, 0.14, 1.25, 1.80, 0.28, "USE Steel"))
+
+    # 4. Brushed stainless-steel hinged flip-top clamshell cover (z up to 1.90 mm)
+    # Left & right side walls + top surround with realistic center card inspection window
+    parts.append(box(-6.55, 0.10, 1.15,  0.45, 13.80, 1.45, "USE Steel"))
+    parts.append(box( 6.55, 0.10, 1.15,  0.45, 13.80, 1.45, "USE Steel"))
+    parts.append(box( 0.0,  6.85, 1.15, 13.55,  0.45, 1.45, "USE Steel"))
+    # Top cover plates (leaving two neat stamped inspection cutouts showing the dark base & contacts)
+    parts.append(box( 0.0,  4.95, 1.78, 13.55,  4.10, 0.24, "USE Steel"))
+    parts.append(box( 0.0, -4.45, 1.78, 13.55,  4.70, 0.24, "USE Steel"))
+    parts.append(box(-5.30, 0.30, 1.78,  2.95,  5.60, 0.24, "USE Steel"))
+    parts.append(box( 5.30, 0.30, 1.78,  2.95,  5.60, 0.24, "USE Steel"))
+    parts.append(box( 0.0,  0.30, 1.78,  4.20,  5.60, 0.24, "USE Steel"))
+    # Recessed embossed grip ribs + hinge barrel at y_3d = -6.80 (clearly shows hinged flip-top!)
+    parts.append(cyl_x(-4.60, -6.80, 1.45, 0.42, 3.60, mat_steel_d))
+    parts.append(cyl_x( 4.60, -6.80, 1.45, 0.42, 3.60, "USE SteelDark"))
+    parts.append(cyl_x( 0.00, -6.80, 1.45, 0.34, 5.40, "USE Steel"))
+    # Latch/slide finger ridges on the front of the clamshell cover (y_3d = +4.8..+6.2)
+    for ry in (4.50, 5.20, 5.90):
+        parts.append(box(0.0, ry, 1.91, 6.20, 0.28, 0.08, "USE SteelDark"))
+
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.writelines(parts)
+
+
 if __name__ == "__main__":
     import sys, subprocess
     unrouted = "--unrouted" in sys.argv
+    write_molex_47219_2001_wrl(os.path.join(OUT_DIR, "3dmodels", "microSD_HC_Molex_47219-2001.wrl"))
     cache_path = os.path.join(OUT_DIR, "routing_cache.sexp")
     extra_routing = ""
     if not unrouted and os.path.exists(cache_path):

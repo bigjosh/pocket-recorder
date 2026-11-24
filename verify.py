@@ -604,9 +604,17 @@ def render_layers():
     env = kicad_env()
     renders = []
     specs = [
-        ("top_outward",  "F.Cu,F.Mask,Edge.Cuts", "top"),
+        ("top_outward",  "F.Cu,F.Mask,F.SilkS,Edge.Cuts", "top"),
         ("bottom_parts", "B.Cu,In2.Cu,B.SilkS,Edge.Cuts", "bottom"),
     ]
+    models_dir = None
+    for cand in [
+        Path(os.path.expandvars(r"%LOCALAPPDATA%\Programs\KiCad\10.0\share\kicad\3dmodels")),
+        Path(r"C:\Program Files\KiCad\10.0\share\kicad\3dmodels"),
+    ]:
+        if cand.exists():
+            models_dir = str(cand)
+            break
     for name, layers, side in specs:
         svg_path = OUT_DIR / f"{name}.svg"
         r = subprocess.run(
@@ -621,15 +629,16 @@ def render_layers():
             if png_path.exists():
                 renders.append(str(png_path))
         else:
-            r3 = subprocess.run(
-                [
-                    kicad_cli, "pcb", "render",
-                    "--side", side, "--width", "1200", "--height", "1600",
-                    "--use-board-stackup-colors", "--background", "opaque",
-                    "-o", str(png_path), str(PCB_PATH),
-                ],
-                capture_output=True, text=True, env=env,
-            )
+            cmd = [
+                kicad_cli, "pcb", "render",
+                "--side", side, "--quality", "high",
+                "--width", "1400", "--height", "2100", "--zoom", "0.95",
+                "--use-board-stackup-colors", "--background", "opaque",
+            ]
+            if models_dir:
+                cmd += ["-D", f"KICAD10_3DMODEL_DIR={models_dir}"]
+            cmd += ["-o", str(png_path), str(PCB_PATH)]
+            r3 = subprocess.run(cmd, capture_output=True, text=True, env=env)
             if r3.returncode == 0 and png_path.exists():
                 renders.append(str(png_path))
     return renders

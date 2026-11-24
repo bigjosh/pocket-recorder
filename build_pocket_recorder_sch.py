@@ -251,7 +251,7 @@ def register_all_symbols():
         ("53", "PC12_SD_CK",    "bidirectional"),
         ("54", "PD2_SD_CMD",    "bidirectional"),
         ("57", "PB5_SD_PWR_EN", "bidirectional"),
-        ("61", "PB8_SD_CD",     "bidirectional"),
+        ("61", "PB8",           "bidirectional"),
         ("21", "PA5",           "bidirectional"),
         ("22", "PA6",           "bidirectional"),
         ("23", "PA7",           "bidirectional"),
@@ -325,14 +325,13 @@ def register_all_symbols():
         half_w_u=4,
     )
     register_box_symbol(
-        "DM3D-SF", "J",
+        "47219-2001", "J",
         left_pins=[
             ("4", "VDD", "power_in"), ("7", "DAT0", "bidirectional"), ("8", "DAT1", "bidirectional"),
             ("1", "DAT2", "bidirectional"), ("2", "CD/DAT3", "bidirectional"),
             ("5", "CLK", "input"), ("3", "CMD", "bidirectional"), ("6", "VSS", "power_in"),
         ],
         right_pins=[
-            ("SW1", "CD_SW", "passive"), ("SW2", "CD_GND", "passive"),
             ("SH1", "SHIELD1", "passive"), ("SH2", "SHIELD2", "passive"),
             ("SH3", "SHIELD3", "passive"), ("SH4", "SHIELD4", "passive"),
         ],
@@ -551,7 +550,7 @@ def build_schematic():
         44: "USB_DM_MCU", 45: "USB_DP_MCU", 46: "SWDIO", 47: "GND", 48: "+3V3_USB",
         49: "SWCLK", 51: "SD_D2_1V8", 52: "SD_D3_1V8", 53: "SD_CLK_1V8", 54: "SD_CMD_1V8",
         55: "PDM_CLK", 56: "PDM_DATA", 57: "SD_PWR_EN", 58: "I2C_SCL", 59: "I2C_SDA",
-        60: "BOOT0", 61: "SD_CD", 62: "VDD11", 63: "GND", 64: "+1V8",
+        60: "BOOT0", 62: "VDD11", 63: "GND", 64: "+1V8",
     }
     place_part(
         "STM32U595RJT6Q", "U1", "STM32U595RJT6Q",
@@ -647,12 +646,12 @@ def build_schematic():
     place_part("C_0603", "C23", "100nF", "Resistor_SMD:R_0603_1608Metric", "CL10B104KB8NNNC", 182, 147, {"1": "+3V0_SD", "2": "GND"}, stub_u=1)
 
     place_part(
-        "DM3D-SF", "J1", "DM3D-SF",
-        "Connector_Card:Hirose_DM3D-SF_microSD", "DM3D-SF", 210, 118,
+        "47219-2001", "J1", "47219-2001",
+        "Connector_Card:microSD_HC_Molex_47219-2001", "47219-2001", 210, 118,
         {
             "1": "SD_D2_3V", "2": "SD_D3_3V", "3": "SD_CMD_3V", "4": "+3V0_SD",
             "5": "SD_CLK_3V", "6": "GND", "7": "SD_D0_3V", "8": "SD_D1_3V",
-            "SW1": "SD_CD", "SW2": "GND", "SH1": "GND", "SH2": "GND", "SH3": "GND", "SH4": "GND",
+            "SH1": "GND", "SH2": "GND", "SH3": "GND", "SH4": "GND",
         },
         stub_u=1,
     )

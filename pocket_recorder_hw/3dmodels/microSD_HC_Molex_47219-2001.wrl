@@ -1,0 +1,41 @@
+#VRML V2.0 utf8
+# Molex 47219-2001 Hinged Clamshell microSD Socket (13.60 x 14.50 x 1.90 mm)
+Transform { translation 0.00000 0.00000 0.11811 children [ Shape { appearance Appearance { material DEF Plastic Material { diffuseColor 0.14 0.14 0.15 specularColor 0.25 0.25 0.25 shininess 0.35 } } geometry Box { size 5.27559 5.66929 0.19685 } } ] }
+Transform { translation -2.38189 0.00000 0.29528 children [ Shape { appearance Appearance { material USE Plastic } geometry Box { size 0.51181 5.66929 0.21654 } } ] }
+Transform { translation 2.38189 0.00000 0.29528 children [ Shape { appearance Appearance { material USE Plastic } geometry Box { size 0.51181 5.66929 0.21654 } } ] }
+Transform { translation 0.00000 2.57874 0.29528 children [ Shape { appearance Appearance { material USE Plastic } geometry Box { size 5.27559 0.51181 0.21654 } } ] }
+Transform { translation 0.00000 -2.57874 0.29528 children [ Shape { appearance Appearance { material USE Plastic } geometry Box { size 5.27559 0.51181 0.21654 } } ] }
+Transform { translation -1.26181 0.82677 0.04724 children [ Shape { appearance Appearance { material DEF Gold Material { diffuseColor 0.85 0.68 0.22 specularColor 0.95 0.85 0.45 shininess 0.85 } } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation -1.26181 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation -0.82874 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation -0.82874 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation -0.39567 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation -0.39567 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation 0.03740 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation 0.03740 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation 0.47047 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation 0.47047 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation 0.90354 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation 0.90354 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation 1.33661 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation 1.33661 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation 1.76969 0.82677 0.04724 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.21654 0.53150 0.08661 } } ] }
+Transform { translation 1.76969 1.41732 0.22835 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.16535 1.02362 0.06299 } } ] }
+Transform { translation -2.70669 1.85039 0.05512 children [ Shape { appearance Appearance { material DEF Steel Material { diffuseColor 0.72 0.74 0.76 specularColor 0.90 0.92 0.94 shininess 0.75 } } geometry Box { size 0.49213 0.70866 0.11024 } } ] }
+Transform { translation -2.70669 -1.41732 0.05512 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 0.49213 0.70866 0.11024 } } ] }
+Transform { translation 2.70669 1.85039 0.05512 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 0.49213 0.70866 0.11024 } } ] }
+Transform { translation 2.70669 -1.41732 0.05512 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 0.49213 0.70866 0.11024 } } ] }
+Transform { translation -2.57874 0.03937 0.45276 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 0.17717 5.43307 0.57087 } } ] }
+Transform { translation 2.57874 0.03937 0.45276 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 0.17717 5.43307 0.57087 } } ] }
+Transform { translation 0.00000 2.69685 0.45276 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 5.33465 0.17717 0.57087 } } ] }
+Transform { translation 0.00000 1.94882 0.70079 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 5.33465 1.61417 0.09449 } } ] }
+Transform { translation 0.00000 -1.75197 0.70079 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 5.33465 1.85039 0.09449 } } ] }
+Transform { translation -2.08661 0.11811 0.70079 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 1.16142 2.20472 0.09449 } } ] }
+Transform { translation 2.08661 0.11811 0.70079 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 1.16142 2.20472 0.09449 } } ] }
+Transform { translation 0.00000 0.11811 0.70079 children [ Shape { appearance Appearance { material USE Steel } geometry Box { size 1.65354 2.20472 0.09449 } } ] }
+Transform { translation -1.81102 -2.67717 0.57087 rotation 0 0 1 1.5707963 children [ Shape { appearance Appearance { material DEF SteelDark Material { diffuseColor 0.50 0.52 0.55 specularColor 0.70 0.72 0.75 shininess 0.60 } } geometry Cylinder { radius 0.16535 height 1.41732 } } ] }
+Transform { translation 1.81102 -2.67717 0.57087 rotation 0 0 1 1.5707963 children [ Shape { appearance Appearance { material USE SteelDark } geometry Cylinder { radius 0.16535 height 1.41732 } } ] }
+Transform { translation 0.00000 -2.67717 0.57087 rotation 0 0 1 1.5707963 children [ Shape { appearance Appearance { material USE Steel } geometry Cylinder { radius 0.13386 height 2.12598 } } ] }
+Transform { translation 0.00000 1.77165 0.75197 children [ Shape { appearance Appearance { material USE SteelDark } geometry Box { size 2.44094 0.11024 0.03150 } } ] }
+Transform { translation 0.00000 2.04724 0.75197 children [ Shape { appearance Appearance { material USE SteelDark } geometry Box { size 2.44094 0.11024 0.03150 } } ] }
+Transform { translation 0.00000 2.32283 0.75197 children [ Shape { appearance Appearance { material USE SteelDark } geometry Box { size 2.44094 0.11024 0.03150 } } ] }

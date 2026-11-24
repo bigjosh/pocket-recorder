@@ -9,7 +9,7 @@ U6,1,AP2112K-3.3TRG1,Diodes Inc.,SOT-23-5,USB-Only 3.3V LDO for VDDUSB,https://w
 U7,1,TXS02612RTWR,Texas Instruments,WQFN-24,4-Bit SDMMC Level Translator (Ioff),https://www.digikey.com/en/products/detail/texas-instruments/TXS02612RTWR/1965237
 D1,1,USBLC6-2SC6Y,STMicroelectronics,SOT-23-6,USB 2.0 HS ESD Protection,https://www.digikey.com/en/products/detail/stmicroelectronics/USBLC6-2SC6Y/2819177
 D2,1,XZMDKCBDDG45S-9,SunLED,4-PLCC Bottom,Reverse-Mount RGB LED,https://www.digikey.com/en/products/detail/sunled/XZMDKCBDDG45S-9/4902045
-J1,1,DM3D-SF,Hirose,SMT 1.55mm H,Push-Pull microSD Socket,https://www.digikey.com/en/products/detail/hirose-electric-co-ltd/DM3D-SF/1786510
+J1,1,47219-2001,Molex,SMT 1.90mm H,Hinged Clamshell microSD Socket,https://www.digikey.com/en/products/detail/molex/0472192001/1997321
 Y1,1,CX3225SB16000D0FLJCC,Kyocera AVX,SMD 3225,16MHz +/-10ppm 8pF HSE Crystal,https://www.digikey.com/en/products/detail/kyocera-avx/CX3225SB16000D0FLJCC/6123301
 "L1,L2",2,DFE201610E-2R2M=P2,Murata,2016 1.0mm H,2.2uH Shielded Inductor,https://www.digikey.com/en/products/detail/murata-electronics/DFE201610E-2R2M-P2/7430537
 "R1,R2",2,RC0603FR-071KL,Yageo,0603,1k 1% (LED G/B),https://www.digikey.com/en/products/detail/yageo/RC0603FR-071KL/726843
