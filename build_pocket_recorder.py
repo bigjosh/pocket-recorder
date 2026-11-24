@@ -28,7 +28,7 @@ def uid():
 NETS = [
     "", "GND", "VBUS_5V", "VSYS", "VBAT", "+1V8", "+3V0_SD", "+3V3_USB",
     "USB_DP", "USB_DM", "USB_DP_MCU", "USB_DM_MCU", "VBUS_DET",
-    "SWDIO", "SWCLK", "NRST", "BOOT0", "UART_TX", "UART_RX",
+    "SWDIO", "SWCLK", "NRST", "BOOT0",
     "PDM_CLK", "PDM_DATA", "LED_R", "LED_G", "LED_B",
     "LED_R_K", "LED_G_K", "LED_B_K",
     "VBAT_ADC", "VBAT_EN", "CHG_STAT1", "CHG_STAT2",
@@ -320,7 +320,8 @@ MPN_MAP = {
     "TP_NRST": "ENIG_3x3mm",
     "TP_SWCLK": "ENIG_3x3mm",
     "J_BAT": "SOLDER_PADS",
-    "J_DBG": "BENCH_PADS",
+    "MH1": "MAGNET_3x1.5MM_N52",
+    "MH2": "MAGNET_3x1.5MM_N52",
 }
 
 
@@ -639,18 +640,19 @@ def fp_pogo_pad(ref, net_name, x, y):
     return fp_wrapper("Custom:PogoPad_3x3mm_ENIG", ref, net_name, x, y, 0, "F.Cu", pad, hide_ref=True)
 
 
-def fp_bench_2x4(x, y):
-    """Parts-side 2x4 bench debug pad group (X5: 1.8V, GND, SWDIO, SWCLK, NRST, TX, RX, PDM_CLK)."""
-    pins = [
-        (1, -0.635, -1.905, "+1V8"),    (2, 0.635, -1.905, "GND"),
-        (3, -0.635, -0.635, "SWDIO"),   (4, 0.635, -0.635, "SWCLK"),
-        (5, -0.635,  0.635, "NRST"),    (6, 0.635,  0.635, "PDM_CLK"),
-        (7, -0.635,  1.905, "UART_TX"), (8, 0.635,  1.905, "UART_RX"),
-    ]
-    pads = "\n".join(smd_pad(str(n), px, py, 0.85, 0.85, net, "B", rot=0, paste=False) for n, px, py, net in pins)
+def fp_magnet_hole(ref, x, y, pol_label):
+    """Ø3.15 mm NPTH recess for Ø3.0 x 1.5 mm N52 neodymium snap-fit magnet (slip fit, flush in 1.6 mm PCB)."""
+    hole = (
+        f'    (pad "" np_thru_hole circle (at 0 0) (size 3.15 3.15) (drill 3.15) '
+        f'(layers "*.Cu" "*.Mask") (uuid "{uid()}"))'
+    )
+    pol = (
+        f'    (fp_text user "{pol_label}" (at 0 -2.15 0) (layer "B.SilkS") '
+        f'(effects (font (size 0.8 0.8) (thickness 0.15)) (justify mirror)) (uuid "{uid()}"))'
+    )
     return fp_wrapper(
-        "Custom:BenchDebug_2x4_1.27mm", "J_DBG", "2x4_BENCH", x, y, 0, "B.Cu",
-        pads, ref_xy=(0.0, -3.15), hide_ref=False,
+        "Custom:MagnetHole_3.15mm_NPTH", ref, f"MAGNET_3x1.5_{pol_label}", x, y, 0, "B.Cu",
+        hole, pol, hide_ref=True,
     )
 
 
@@ -676,7 +678,7 @@ STM32_PINS = {
     18: "GND", 19: "+1V8",
     28: "SMPS_LX", 29: "+1V8", 30: "GND", 31: "VDD11", 32: "GND", 33: "+1V8",
     34: "CHG_STAT1", 35: "CHG_STAT2", 36: "LED_B", 37: "LED_R", 38: "LED_G",
-    39: "SD_D0_1V8", 40: "SD_D1_1V8", 42: "UART_TX", 43: "UART_RX",
+    39: "SD_D0_1V8", 40: "SD_D1_1V8",
     44: "USB_DM_MCU", 45: "USB_DP_MCU", 46: "SWDIO", 47: "GND", 48: "+3V3_USB",
     49: "SWCLK", 51: "SD_D2_1V8", 52: "SD_D3_1V8", 53: "SD_CLK_1V8", 54: "SD_CMD_1V8",
     55: "PDM_CLK", 56: "PDM_DATA", 57: "SD_PWR_EN", 58: "I2C_SCL", 59: "I2C_SDA",
@@ -717,6 +719,21 @@ def build_pcb(extra_routing=""):
             fcu_keepouts.append(f"""  (zone (net 0) (net_name "") (layer "F.Cu") (uuid "{uid()}")
     (keepout (tracks allowed) (vias allowed) (pads allowed) (copperpour not_allowed) (footprints allowed))
     (polygon (pts (xy {x1:.2f} {y1:.2f}) (xy {x2:.2f} {y1:.2f}) (xy {x2:.2f} {y2:.2f}) (xy {x1:.2f} {y2:.2f})))
+  )""")
+
+    # --- Top-Row Snap-Fit Magnet Holes (Ø3.15 mm NPTH for Ø3.0 x 1.5 mm N52 discs, N/S keyed) ---
+    # 0.40 mm radial copper-pour keepout on F.Cu & In1.Cu keeps conductive nickel magnets isolated from GND/5V!
+    for mref, mx, my, pol in [("MH1", 2.35, 3.50, "N"), ("MH2", 27.65, 3.50, "S")]:
+        fps.append(fp_magnet_hole(mref, mx, my, pol))
+        r_ko = 1.98
+        kpts = " ".join(
+            f"(xy {mx + r_ko * math.cos(2 * math.pi * k / 24):.3f} {my + r_ko * math.sin(2 * math.pi * k / 24):.3f})"
+            for k in range(24)
+        )
+        for klyr in ("F.Cu", "In1.Cu"):
+            fcu_keepouts.append(f"""  (zone (net 0) (net_name "") (layer "{klyr}") (uuid "{uid()}")
+    (keepout (tracks allowed) (vias allowed) (pads allowed) (copperpour not_allowed) (footprints allowed))
+    (polygon (pts {kpts}))
   )""")
 
     # --- Acoustic Vent Ø6.0 mm Keepout on F.Cu (zero copper step/vias around MK1) ---
@@ -775,18 +792,17 @@ def build_pcb(extra_routing=""):
         1: "LED_R_K", 2: "VSYS", 3: "LED_G_K", 4: "LED_B_K"
     }))
     fps.append(fp_bat_pads(27.5, 17.4))
-    fps.append(fp_bench_2x4(26.2, 42.5))
 
-    # --- 0603 Passives (Resistors & Capacitors, collision-free, clear of dogbone vias & SD card) ---
+    # --- 0603 Passives (Resistors & Capacitors, collision-free, clear of dogbone vias, magnets & SD card) ---
     passives = [
         # LED resistors (U2) below J1, above D2
         ("R1", "1k",   16.2, 39.2, 0, "LED_G", "LED_G_K"),
         ("R2", "1k",   19.6, 39.2, 0, "LED_B", "LED_B_K"),
         ("R3", "2.2k", 23.0, 39.2, 0, "LED_R", "LED_R_K"),
-        # BQ25185 config (wide open around U3 at 25.6, 6.4)
-        ("R4", "1.2k", 24.4,  3.1, 0,  "BQ_ISET", "GND"),
-        ("R5", "18k",  27.8,  3.1, 90, "BQ_ILIM", "GND"),
-        ("R6", "10k",  28.2,  9.8, 90, "BQ_TS",   "GND"),
+        # BQ25185 config (100% planar fanout from U3 pins 6/7/8, clear of MH2 magnet hole at 27.65, 3.50!)
+        ("R6", "10k",  24.0,  3.1, 180, "BQ_TS",   "GND"),
+        ("R5", "18k",  28.48, 6.7, 270, "BQ_ILIM", "GND"),
+        ("R4", "1.2k", 28.48, 9.8, 270, "BQ_ISET", "GND"),
         # BOOT0 (right below U1.60 -> 2mm straight drop!), I2C pull-ups, RTC VBACKUP/nINT (tucked left of U7)
         ("R7",  "10k",  9.6, 22.6, 270, "BOOT0",     "GND"),
         ("R8",  "10k",  2.0, 26.0, 90,  "I2C_SCL",   "+1V8"),
@@ -800,7 +816,7 @@ def build_pcb(extra_routing=""):
         ("R15", "100k",  7.6, 36.2, 0, "SD_PWR_EN", "GND"),
         ("R16", "220k", 21.0, 17.8, 0, "VBAT",      "VBAT_ADC"),
         # Bulk & Decoupling Capacitors (0603)
-        ("C1",  "10uF",  26.2,  8.8, 0,  "VSYS",     "GND"),
+        ("C1",  "10uF",  26.2,  9.0, 0,  "VSYS",     "GND"),
         ("C2",  "10uF",  21.6, 13.8, 0,  "+1V8",     "GND"),
         ("C3",  "10uF",  10.8, 35.4, 0,  "+3V0_SD",  "GND"),
         ("C4",  "4.7uF", 23.4,  8.8, 0,  "VSYS",     "GND"),

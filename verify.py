@@ -414,13 +414,13 @@ def run_mechanical_and_parity_checks():
         if fp_mismatches:
             failures.append(f"Parity: Footprint mismatches: {fp_mismatches[:6]}")
 
-    # Check BOM covers all physical parts (excluding bare PCB pads TP_*, J_BAT, J_DBG)
+    # Check BOM covers all physical parts (excluding bare PCB pads TP_*, J_BAT & magnet holes MH1/MH2)
     if BOM_PATH.exists():
         bom_qty = 0
         with BOM_PATH.open("r", encoding="utf-8") as f:
             for row in csv.DictReader(f):
                 bom_qty += int(row["Qty"])
-        expected_bom_parts = len([r for r in pcb_refs if not r.startswith("TP_") and r not in ("J_BAT", "J_DBG")])
+        expected_bom_parts = len([r for r in pcb_refs if not r.startswith("TP_") and r not in ("J_BAT", "MH1", "MH2")])
         metrics["part_counts"] = {
             "total_pcb_footprints": len(pcb_refs),
             "bom_populated_parts": bom_qty,

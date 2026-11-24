@@ -483,12 +483,11 @@ class BoardRouter:
             self.add_locked_via("GND", pts[-1][0], pts[-1][1])
             self.gnd_done.add(("U1", pn))
 
-        # Pre-anchor U1.47, J1.6, C19.2, and J_DBG.2 into clean open spots so they never get boxed in
+        # Pre-anchor U1.47, J1.6, and C19.2 into clean open spots so they never get boxed in
         pre_gnd = [
             ("U1",    "47", (15.80, p[("U1", "47")]["cy"])),
             ("J1",    "6",  (p[("J1", "6")]["cx"],     p[("J1", "6")]["cy"] + 1.80)),
             ("C19",   "2",  (p[("C19", "2")]["cx"],    p[("C19", "2")]["cy"] - 1.20)),
-            ("J_DBG", "2",  (p[("J_DBG", "2")]["cx"] + 1.15, p[("J_DBG", "2")]["cy"])),
         ]
         for ref, pn, (vx, vy) in pre_gnd:
             pad = p[(ref, pn)]

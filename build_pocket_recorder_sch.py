@@ -369,10 +369,10 @@ def register_all_symbols():
         half_w_u=3,
     )
     register_box_symbol(
-        "BENCH_2X4", "J",
-        left_pins=[("1", "+1V8", "passive"), ("3", "SWDIO", "passive"), ("5", "NRST", "passive"), ("7", "UART_TX", "passive")],
-        right_pins=[("2", "GND", "passive"), ("4", "SWCLK", "passive"), ("6", "PDM_CLK", "passive"), ("8", "UART_RX", "passive")],
-        half_w_u=4,
+        "MAGNET_HOLE", "MH",
+        left_pins=[],
+        right_pins=[],
+        half_w_u=3,
     )
 
 
@@ -547,7 +547,7 @@ def build_schematic():
         18: "GND", 19: "+1V8",
         28: "SMPS_LX", 29: "+1V8", 30: "GND", 31: "VDD11", 32: "GND", 33: "+1V8",
         34: "CHG_STAT1", 35: "CHG_STAT2", 36: "LED_B", 37: "LED_R", 38: "LED_G",
-        39: "SD_D0_1V8", 40: "SD_D1_1V8", 42: "UART_TX", 43: "UART_RX",
+        39: "SD_D0_1V8", 40: "SD_D1_1V8",
         44: "USB_DM_MCU", 45: "USB_DP_MCU", 46: "SWDIO", 47: "GND", 48: "+3V3_USB",
         49: "SWCLK", 51: "SD_D2_1V8", 52: "SD_D3_1V8", 53: "SD_CLK_1V8", 54: "SD_CMD_1V8",
         55: "PDM_CLK", 56: "PDM_DATA", 57: "SD_PWR_EN", 58: "I2C_SCL", 59: "I2C_SDA",
@@ -610,10 +610,14 @@ def build_schematic():
     place_part("R_0603", "R11", "10k",   "Resistor_SMD:R_0603_1608Metric", "RC0603FR-0710KL", 42, 136, {"1": "RTC_INT",   "2": "+1V8"}, stub_u=1)
 
     place_part(
-        "BENCH_2X4", "J_DBG", "2x4_BENCH",
-        "Custom:BenchDebug_2x4_1.27mm", "BENCH_PADS", 62, 132,
-        {"1": "+1V8", "2": "GND", "3": "SWDIO", "4": "SWCLK", "5": "NRST", "6": "PDM_CLK", "7": "UART_TX", "8": "UART_RX"},
-        stub_u=1,
+        "MAGNET_HOLE", "MH1", "MAGNET_3x1.5_N",
+        "Custom:MagnetHole_3.15mm_NPTH", "MAGNET_3x1.5MM_N52", 62, 126,
+        {}, in_bom="no",
+    )
+    place_part(
+        "MAGNET_HOLE", "MH2", "MAGNET_3x1.5_S",
+        "Custom:MagnetHole_3.15mm_NPTH", "MAGNET_3x1.5MM_N52", 62, 138,
+        {}, in_bom="no",
     )
 
     # BLOCK 6: SWITCHED 3.0V SD LDO, 4-BIT LEVEL TRANSLATOR & microSD SOCKET
