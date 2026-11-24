@@ -1,0 +1,4 @@
+Designator,Qty,MPN,Manufacturer,Package,Description,Order_Link
+J1,1,USB4105-GF-A,GCT,USB-C 16P Top-Mount,USB 2.0 Type-C Receptacle (4x THT Shield Legs),https://www.digikey.com/en/products/detail/gct/USB4105-GF-A/10255375
+"R1,R2",2,RC0603FR-075K1L,Yageo,0603,5.1k 1% USB-C UFP CC1/CC2 Pull-Down,https://www.digikey.com/en/products/detail/yageo/RC0603FR-075K1L/729752
+SP1-SP4,4,S7241-45R,Harwin,SMT 3.0x1.5x1.3mm,"Gold SMT Spring Finger (1.0mm working H, ~40gf)",https://www.digikey.com/en/products/detail/harwin-inc/S7241-45R/5177553

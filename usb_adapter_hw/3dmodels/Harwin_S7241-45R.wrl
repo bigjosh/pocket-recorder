@@ -1,0 +1,8 @@
+#VRML V2.0 utf8
+# Harwin S7241-45R Gold SMT Spring Finger (3.00 x 1.50 x 1.30 mm)
+Transform { translation 0.00000 0.00000 0.03150 children [ Shape { appearance Appearance { material DEF Gold Material { diffuseColor 0.88 0.70 0.22 specularColor 0.98 0.88 0.48 shininess 0.85 } } geometry Box { size 0.94488 0.51181 0.06299 } } ] }
+Transform { translation -0.47244 0.00000 0.11811 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.08661 0.51181 0.18898 } } ] }
+Transform { translation -0.20472 0.00000 0.33858 rotation 0 1 0 -0.52000 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.59055 0.45276 0.06299 } } ] }
+Transform { translation 0.07087 0.00000 0.48031 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.17717 0.45276 0.06299 } } ] }
+Transform { translation 0.30709 0.00000 0.34646 rotation 0 1 0 0.68000 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.41339 0.41339 0.05906 } } ] }
+Transform { translation 0.45276 0.00000 0.13386 children [ Shape { appearance Appearance { material USE Gold } geometry Box { size 0.09449 0.51181 0.22047 } } ] }
