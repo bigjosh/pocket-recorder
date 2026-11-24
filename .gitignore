@@ -13,6 +13,8 @@ kicad/
 *.rules
 *.rpt
 pocket_recorder_hw/gerbers_pcbway/
+usb_adapter_hw/gerbers_pcbway/
+*.kicad_prl
 
 # Python
 __pycache__/
